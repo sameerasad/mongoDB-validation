@@ -1,41 +1,29 @@
 const mongoose = require("mongoose");
 mongoose
-  .connect("mongodb://localhost/exercise", {
+  .connect("mongodb://localhost/vidly1", {
     useNewUrlParser: true,
     useUnifiedTopology: true,
   })
-  .then(() => {
-    console.log("mongoDb  connected sucessfully");
-  })
-  .catch((err) => console.error("could not connect"));
+  .then(() => console.log("connected sucessfully"))
+  .catch((err) => console.error("could not connect ", err));
 
-const schema = mongoose.Schema({
-  tags: [String],
-  date: Date,
-  name: String,
-
-  author: String,
-  isPublished: Boolean,
+const moviesSchema = new mongoose.Schema({
+  name: { type: String, required: true }, //validate by required property
   price: Number,
+  genre: String,
+  availability: Boolean,
+  date: { type: Date, default: Date.now },
 });
 
-const Course = mongoose.model("courses", schema);
-
-async function createCourse() {
-  let course = new Course({
-    tags: [],
-    date,
-    name,
-    author,
-    isPublished,
-    price,
+const Movies = mongoose.model("movies", moviesSchema);
+async function createMovies() {
+  const movies = new Movies({
+    name: "holloween",
   });
-  try {
-    course = course.save();
-    console.log(course);
-  } catch (err) {
-    console.log(err.message);
-  }
+
+  const result = await movies.save();
+
+  console.log(result);
 }
 
-createCourse();
+createMovies();
