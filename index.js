@@ -9,7 +9,7 @@ mongoose
 
 const moviesSchema = new mongoose.Schema({
   name: { type: String, required: true }, //validate by required property
-  price: Number,
+  price: { type: Number, required: true },
   genre: String,
   availability: Boolean,
   date: { type: Date, default: Date.now },
@@ -19,6 +19,7 @@ const Movies = mongoose.model("movies", moviesSchema);
 async function createMovies() {
   const movies = new Movies({
     name: "holloween",
+    price: 20,
   });
 
   const result = await movies.save();
