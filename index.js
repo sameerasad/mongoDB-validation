@@ -17,14 +17,15 @@ const moviesSchema = new mongoose.Schema({
 
 const Movies = mongoose.model("movies", moviesSchema);
 async function createMovies() {
-  const movies = new Movies({
-    name: "holloween",
-    price: 20,
-  });
+  const movies = new Movies({});
+  // if any required field is missing at time of saving mongoose not allow us to save the collection so have to handle it by exception try{} catch()block
+  try {
+    const result = await movies.save();
 
-  const result = await movies.save();
-
-  console.log(result);
+    console.log(result);
+  } catch (err) {
+    console.log(err.message);
+  }
 }
 
 createMovies();
