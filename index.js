@@ -19,7 +19,7 @@ const moviesSchema = new mongoose.Schema({
     required: function () {
       return this.availability;
     },
-    minimum: 10,
+    minimum: 100,
     maximum: 200,
   },
   genre: String,
