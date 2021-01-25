@@ -30,7 +30,7 @@ const moviesSchema = new mongoose.Schema({
 const Movies = mongoose.model("movies", moviesSchema);
 async function createMovies() {
   const movies = new Movies({
-    name: "harry welcome2",
+    name: "harry2",
     price: 40,
     availability: true,
   });
