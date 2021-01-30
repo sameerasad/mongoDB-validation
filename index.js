@@ -28,8 +28,18 @@ const moviesSchema = new mongoose.Schema({
   date: { type: Date, default: Date.now },
   category: {
     type: String,
-    enum: ["horror", "fiction", "drame", "action", "romance"],
+    enum: ["horror", "fiction", "drama", "action", "romance"],
     required: true,
+  },
+  tags: {
+    type: Array,
+    validate: {
+      validator: function (v) {
+        //v take the value passed in tags
+        return v && v.length > 0; // validator should have some value and greater than 0
+      },
+      message: "a movie should have atleast one tag",
+    },
   },
 });
 
@@ -37,9 +47,11 @@ const Movies = mongoose.model("movies", moviesSchema);
 async function createMovies() {
   const movies = new Movies({
     name: "ben askren",
+
     price: 11,
     availability: true,
-    category: "romance",
+    category: "action",
+    tags: "bekaar",
   });
 
   // if any required field is missing at time of saving mongoose not allow us to save the collection so have to handle it by exception try{} catch()block
@@ -51,4 +63,11 @@ async function createMovies() {
   }
 }
 
-createMovies();
+async function getMovies() {
+  const movies = await Movies.find({ category: "action" })
+    .select({ name: 1 })
+    .count();
+  console.log(movies);
+}
+
+getMovies();
