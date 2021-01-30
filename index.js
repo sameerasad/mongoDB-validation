@@ -26,6 +26,11 @@ const moviesSchema = new mongoose.Schema({
   genre: String,
   availability: { type: Boolean, required: true },
   date: { type: Date, default: Date.now },
+  category: {
+    type: String,
+    enum: ["horror", "fiction", "drame", "action", "romance"],
+    required: true,
+  },
 });
 
 const Movies = mongoose.model("movies", moviesSchema);
@@ -34,6 +39,7 @@ async function createMovies() {
     name: "ben askren",
     price: 11,
     availability: true,
+    category: "romance",
   });
 
   // if any required field is missing at time of saving mongoose not allow us to save the collection so have to handle it by exception try{} catch()block
