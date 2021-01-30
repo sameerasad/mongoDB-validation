@@ -12,26 +12,27 @@ const moviesSchema = new mongoose.Schema({
     type: String,
     required: true,
     minlength: 5,
-    maxlength: 10 /*match:/pattern/*/,
+    maxlength: 255,
+    /*match:/pattern/*/
   }, //validate by required property
   price: {
     type: Number,
     required: function () {
       return this.availability;
     },
-    minimum: 100,
-    maximum: 200,
+    min: 10,
+    max: 200,
   },
   genre: String,
-  availability: Boolean,
+  availability: { type: Boolean, required: true },
   date: { type: Date, default: Date.now },
 });
 
 const Movies = mongoose.model("movies", moviesSchema);
 async function createMovies() {
   const movies = new Movies({
-    name: "ben 10",
-    price: 45,
+    name: "ben askren",
+    price: 11,
     availability: true,
   });
 
