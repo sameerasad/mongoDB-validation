@@ -28,7 +28,7 @@ const moviesSchema = new mongoose.Schema({
   date: { type: Date, default: Date.now },
   category: {
     type: String,
-    enum: ["horror", "fiction", "drama", "action", "romance"],
+    enum: ["horror", "fiction", "drama", "action", "romance", "comedy"],
     required: true,
   },
   tags: {
