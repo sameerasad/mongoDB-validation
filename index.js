@@ -34,9 +34,13 @@ const moviesSchema = new mongoose.Schema({
   tags: {
     type: Array,
     validate: {
-      validator: function (v) {
-        //v take the value passed in tags
-        return v && v.length > 0; // validator should have some value and greater than 0
+      isAsync: true,
+      validator: function (v, callback) {
+        setTimeout(() => {
+          //do some async work
+          const result = v && v.length > 0;
+          callback(result);
+        }, 4000);
       },
       message: "a movie should have atleast one tag",
     },
@@ -70,4 +74,4 @@ async function getMovies() {
   console.log(movies);
 }
 
-getMovies();
+createMovies();
