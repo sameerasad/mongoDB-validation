@@ -54,16 +54,19 @@ async function createMovies() {
 
     price: 11,
     availability: true,
-    category: "action",
-    tags: "bekaar",
+    category: "-",
+    tags: null,
   });
 
   // if any required field is missing at time of saving mongoose not allow us to save the collection so have to handle it by exception try{} catch()block
   try {
     const result = await movies.save();
     console.log(result);
-  } catch (err) {
-    console.log(err.message);
+  } catch (ex) {
+    //ex has a property of errors we could itrate over all the properties
+    for (field in ex.errors) {
+      console.log(ex.errors[fields]);
+    }
   }
 }
 
