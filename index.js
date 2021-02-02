@@ -22,6 +22,8 @@ const moviesSchema = new mongoose.Schema({
     },
     min: 10,
     max: 200,
+    get: (v) => Math.round(v), //when we read the propert price it will be round due to get mwthod
+    set: (v) => Math.round(v), // when we save the price it will rounded due to set method
   },
   genre: String,
   availability: { type: Boolean, required: true },
@@ -30,17 +32,15 @@ const moviesSchema = new mongoose.Schema({
     type: String,
     enum: ["horror", "fiction", "drama", "action", "romance", "comedy"],
     required: true,
+    trim: true,
+    lowercase: true,
+    //uppercase:true
   },
   tags: {
     type: Array,
     validate: {
-      isAsync: true,
-      validator: function (v, callback) {
-        setTimeout(() => {
-          //do some async work
-          const result = v && v.length > 0;
-          callback(result);
-        }, 4000);
+      validator: function (v) {
+        return v && v.length > 0;
       },
       message: "a movie should have atleast one tag",
     },
@@ -50,12 +50,12 @@ const moviesSchema = new mongoose.Schema({
 const Movies = mongoose.model("movies", moviesSchema);
 async function createMovies() {
   const movies = new Movies({
-    name: "ben askren",
+    name: "ben askren pagal",
 
-    price: 11,
+    price: 11.8,
     availability: true,
-    category: "-",
-    tags: null,
+    category: "DRAMa",
+    tags: "borring",
   });
 
   // if any required field is missing at time of saving mongoose not allow us to save the collection so have to handle it by exception try{} catch()block
@@ -63,18 +63,16 @@ async function createMovies() {
     const result = await movies.save();
     console.log(result);
   } catch (ex) {
-    //ex has a property of errors we could itrate over all the properties
+    //ex exception a property errors
     for (field in ex.errors) {
-      console.log(ex.errors[fields]);
+      console.log(ex.errors[field].message);
     }
   }
 }
 
 async function getMovies() {
-  const movies = await Movies.find({ category: "action" })
-    .select({ name: 1 })
-    .count();
-  console.log(movies);
+  const movies = await Movies.find({ name: "ben askren pagal1" });
+  console.log(movies[0].price);
 }
 
-createMovies();
+getMovies();
